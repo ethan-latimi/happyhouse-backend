@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import curriculum
 
-# Register your models here.
+
+@admin.register(curriculum)
+class CurriculumAdmin(admin.ModelAdmin):
+    pass

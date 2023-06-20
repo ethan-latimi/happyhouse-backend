@@ -8,7 +8,7 @@ class photo(CommonModel):
     """Photos of a Notice Model Definition"""
 
     file=models.URLField(null=True, blank=True)
-    notice=models.ForeignKey("notices.notie", on_delete=models.CASCADE)
+    notice=models.ForeignKey("notices.notice", on_delete=models.CASCADE)
 
 class notice(CommonModel):
 

@@ -30,10 +30,12 @@ class User(AbstractUser):
     gender = models.CharField(
         max_length=10,
         choices=GenderChoices.choices,
+        default="male",
     )
     language = models.CharField(
         max_length=2,
         choices=LanguageChoices.choices,
+        default="en",
     )
     email = models.EmailField()
 
