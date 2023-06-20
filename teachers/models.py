@@ -11,3 +11,5 @@ class teacher(CommonModel):
     bio=models.TextField()
     photo=models.URLField(null=True, blank=True)
 
+    def __str__(self):
+        return self.nick_name

@@ -23,7 +23,7 @@ class reservation(CommonModel):
         null=True,
         blank=True,
     )
-    guests = models.PositiveIntegerField()
+    guests = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return f"{self.business} / booking for: {self.user}"
+        return f"{self.business.capitalize()} / booking for: {self.user}"

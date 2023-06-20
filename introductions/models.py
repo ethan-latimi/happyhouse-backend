@@ -19,3 +19,6 @@ class introduction(CommonModel):
     )
     description = models.TextField()
     photo=models.URLField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.kind.capitalize()} Introduction"
