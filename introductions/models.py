@@ -1,3 +1,21 @@
 from django.db import models
+from common.models import CommonModel
 
-# Create your models here.
+# 각각의 사업(preschool, housing, farm, hairsalon)들 소개란
+
+class introduction(CommonModel):
+
+    """ Business Introduction model Defined """
+
+    class BusinessChoices(models.TextChoices):
+        preschool = ("preschool", "Happy Preschool")
+        housing = ("housing", "Happy Housing")
+        farm = ("farm", "Happy farm")
+        salon = ("salon", "Happy Hair Salon")
+
+    kind = models.CharField(
+        max_length=20,
+        choices=BusinessChoices.choices,
+    )
+    description = models.TextField()
+    photo=models.URLField(null=True, blank=True)
