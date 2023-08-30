@@ -48,6 +48,7 @@ SYSTEM_APPS=[
 ]
 
 CUSTOM_APPS=[
+    'rest_framework',
     "common",
     "curriculums",
     "introductions",
