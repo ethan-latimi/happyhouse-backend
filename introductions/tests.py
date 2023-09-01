@@ -12,12 +12,10 @@ class IntroductionTests(APITestCase):
     URL = "/api/v1/introductions/"
 
     def setUp(self):
-        # Create a regular user
         self.client = APIClient()
         self.user = User.objects.create_user(
             username='testuser', password='testpassword'
         )
-        # Create an admin user
         self.admin_user = User.objects.create_user(
             username='adminuser', password='adminpassword', is_staff=True, is_superuser=True
         )
@@ -34,8 +32,6 @@ class IntroductionTests(APITestCase):
         new_introduction_description = "new desc"
         data = {'kind': new_introduction_kind,
                 'description': new_introduction_description}
-
-        # Use the admin client for this test
         response = self.admin_client.post(
             self.URL, data, format='json')
 
@@ -95,11 +91,8 @@ class IntroductionDetailTests(APITestCase):
             'kind': introduction.BusinessChoices.housing,
             'description': 'Updated Introduction'
         }
-        # Make the PUT request using the authenticated user's client
         response = self.client.put(
             f'/api/v1/introductions/{self.intro.pk}/', updated_data, format='json')
-
-        # Check the response status code (e.g., expecting 200 OK)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_delete(self):

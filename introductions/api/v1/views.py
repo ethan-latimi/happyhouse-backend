@@ -1,13 +1,15 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from introductions.models import introduction
 from introductions.serializers import IntroductionSerializer
-from common.permissions import IsOwnerOrReadOnly
+from common.permissions import IsStaffOrReadOnly
 
 
 class IntroductionList(APIView):
+
+    permission_classes = [IsStaffOrReadOnly]
 
     def get(self, request):
         introductions = introduction.objects.all()
@@ -16,16 +18,17 @@ class IntroductionList(APIView):
 
     def post(self, request):
 
-        if not request.user.is_staff:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
         serializer = IntroductionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class IntroductionDetail(APIView):
+
+    permission_classes = [IsStaffOrReadOnly]
+
     def get_object(self, pk):
         try:
             return introduction.objects.get(pk=pk)
@@ -39,10 +42,6 @@ class IntroductionDetail(APIView):
 
     def put(self, request, pk):
         intro = self.get_object(pk)
-
-        if not request.user.is_staff:
-            return Response(status=status.HTTP_403_FORBIDDEN)
-
         serializer = IntroductionSerializer(intro, data=request.data)
 
         if serializer.is_valid():
@@ -52,9 +51,5 @@ class IntroductionDetail(APIView):
 
     def delete(self, request, pk):
         intro = self.get_object(pk)
-
-        if not request.user.is_staff:
-            return Response(status=status.HTTP_403_FORBIDDEN)
-
         intro.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
