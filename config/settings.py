@@ -38,7 +38,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-SYSTEM_APPS=[
+SYSTEM_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,7 +47,7 @@ SYSTEM_APPS=[
     'django.contrib.staticfiles',
 ]
 
-CUSTOM_APPS=[
+CUSTOM_APPS = [
     'rest_framework',
     "common",
     "curriculums",
@@ -56,6 +56,7 @@ CUSTOM_APPS=[
     "reservations",
     "teachers",
     "users",
+    "media",
 ]
 
 INSTALLED_APPS = SYSTEM_APPS + CUSTOM_APPS
@@ -143,4 +144,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL="users.User"
+AUTH_USER_MODEL = "users.User"
+
+# temp uploads
+MEDIA_ROOT = "uploads"
+MEDIA_URL = "user-uploads/"

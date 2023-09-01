@@ -3,6 +3,7 @@ from common.models import CommonModel
 
 # 각각의 사업(preschool, housing, farm, hairsalon)들 소개란
 
+
 class introduction(CommonModel):
 
     """ Business Introduction model Defined """
@@ -18,7 +19,6 @@ class introduction(CommonModel):
         choices=BusinessChoices.choices,
     )
     description = models.TextField()
-    photo=models.URLField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.kind.capitalize()} Introduction"

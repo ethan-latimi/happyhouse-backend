@@ -1,0 +1,22 @@
+[
+    {
+        "model": "introductions.introduction",
+        "pk": 1,
+        "fields": {
+            "kind": "preschool",
+            "description": "description test",
+            "created_at": "2023-09-01 12:30:45.123456Z",
+            "updated_at": "2023-09-01 12:30:45.123456Z"
+        }
+    },
+    {
+        "model": "introductions.introduction",
+        "pk": 2,
+        "fields": {
+            "kind": "housing",
+            "description": "description test2",
+            "created_at": "2023-09-01 12:30:45.123456Z",
+            "updated_at": "2023-09-01 12:30:45.123456Z"
+        }
+    }
+]

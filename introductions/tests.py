@@ -1,25 +1,26 @@
-from django.test import TestCase
-from rest_framework.test import APIClient
+from rest_framework.test import APITestCase
 from rest_framework import status
-from .models import introduction
+from rest_framework.test import APIClient
+from .models import introduction  # Import your Introduction model
+# Import your IntroductionSerializer
+from .serializers import IntroductionSerializer
 
 
-class IntroductionTests(TestCase):
+class IntroductionTests(APITestCase):
+
+    fixtures = ['test_data.json']
+    URL = "/api/v1/introductions/"
+
     def setUp(self):
         self.client = APIClient()
-        self.intro_data = {
-            "kind": "preschool",
-            "description": "This is a description.",
-            "photo": "http://example.com/photo.jpg"
-        }
-        self.intro = introduction.objects.create(**self.intro_data)
 
-    def test_get_all_introductions(self):
-        response = self.client.get('/introductions/')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+    def test_create_introduction(self):
 
-    def test_get_single_introduction(self):
-        response = self.client.get(f'/introductions/{self.intro.pk}/')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['kind'], self.intro_data['kind'])
+        new_introduction_kind = "preschool"
+        new_introduction_description = "new desc"
+        data = {'kind': new_introduction_kind,
+                'description': new_introduction_description}
+        response = self.client.post(
+            self.URL, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)

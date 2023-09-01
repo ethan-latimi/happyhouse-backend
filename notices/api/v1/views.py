@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import notice, photo
-from .serializers import NoticeSerializer, PhotoSerializer
+from notices.models import notice, photo
+from notices.serializers import NoticeSerializer, PhotoSerializer
 
 
 class NoticeList(APIView):
