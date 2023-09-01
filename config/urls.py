@@ -25,4 +25,8 @@ urlpatterns = [
     path("api/v1/introductions/", include("introductions.api.v1.urls")),
     path("api/v1/curriculums/", include("curriculums.api.v1.urls")),
     path('admin/', admin.site.urls),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

@@ -11,7 +11,7 @@ class introduction(CommonModel):
     class BusinessChoices(models.TextChoices):
         preschool = ("preschool", "Happy Preschool")
         housing = ("housing", "Happy Housing")
-        farm = ("farm", "Happy farm")
+        farm = ("farm", "Happy Farm")
         salon = ("salon", "Happy Hair Salon")
 
     kind = models.CharField(
