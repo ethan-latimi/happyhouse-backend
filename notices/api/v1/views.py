@@ -3,17 +3,20 @@ from rest_framework.response import Response
 from rest_framework import status
 from notices.models import notice, comment
 from notices.serializers import NoticeSerializer, CommentSerializer
+from common.permissions import IsStaffOrReadOnly, IsOwnerOrReadOnly
 
 
 class NoticeList(APIView):
+
+    permission_classes = [IsStaffOrReadOnly]
+
     def get(self, request):
         notices = notice.objects.all()
         serializer = NoticeSerializer(notices, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        data = request.data
-        serializer = NoticeSerializer(data=data)
+        serializer = NoticeSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -21,6 +24,9 @@ class NoticeList(APIView):
 
 
 class NoticeDetail(APIView):
+
+    permission_classes = [IsStaffOrReadOnly]
+
     def get_object(self, pk):
         try:
             return notice.objects.get(pk=pk)
@@ -34,9 +40,6 @@ class NoticeDetail(APIView):
 
     def put(self, request, pk):
         notice_obj = self.get_object(pk)
-        if notice_obj.owner != request.user:
-            # Unauthorized to update
-            return Response(status=status.HTTP_403_FORBIDDEN)
         serializer = NoticeSerializer(notice_obj, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -45,14 +48,14 @@ class NoticeDetail(APIView):
 
     def delete(self, request, pk):
         notice_obj = self.get_object(pk)
-        if notice_obj.owner != request.user:
-            # Unauthorized to delete
-            return Response(status=status.HTTP_403_FORBIDDEN)
         notice_obj.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class CommentList(APIView):
+
+    permission_classes = [IsOwnerOrReadOnly]
+
     def get(self, request):
         comments = comment.objects.all()
         serializer = CommentSerializer(comments, many=True)
@@ -67,6 +70,9 @@ class CommentList(APIView):
 
 
 class CommentDetail(APIView):
+
+    permission_classes = [IsOwnerOrReadOnly]
+
     def get_object(self, pk):
         try:
             return comment.objects.get(pk=pk)
