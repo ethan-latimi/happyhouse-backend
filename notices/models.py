@@ -10,18 +10,9 @@ class notice(CommonModel):
 
     title = models.CharField(max_length=255)
     content = models.TextField()
-    owner = models.ForeignKey("users.User", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
-
-
-class photo(CommonModel):
-
-    """Photos of a Notice Model Definition"""
-
-    file = models.URLField(null=True, blank=True)
-    notice = models.ForeignKey("notices.notice", on_delete=models.CASCADE)
 
 
 class comment(CommonModel):
@@ -29,7 +20,7 @@ class comment(CommonModel):
     """Comment Model Definition"""
 
     payload = models.TextField()
-    user = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    owner = models.ForeignKey("users.User", on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user} / {self.created_at}"
+        return f"{self.owner} / {self.created_at}"

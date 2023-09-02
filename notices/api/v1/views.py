@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from notices.models import notice, photo
-from notices.serializers import NoticeSerializer, PhotoSerializer
+from notices.models import notice, comment
+from notices.serializers import NoticeSerializer, CommentSerializer
 
 
 class NoticeList(APIView):
@@ -52,16 +52,53 @@ class NoticeDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class PhotoList(APIView):
+class CommentList(APIView):
     def get(self, request):
-        photos = photo.objects.all()
-        serializer = PhotoSerializer(photos, many=True)
+        comments = comment.objects.all()
+        serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        data = request.data
-        serializer = PhotoSerializer(data=data)
+        serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CommentDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return comment.objects.get(pk=pk)
+        except comment.DoesNotExist:
+            return None
+
+    def get(self, request, pk):
+        comment_instance = self.get_object(pk)
+        if comment_instance is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = CommentSerializer(comment_instance)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        comment_instance = self.get_object(pk)
+        if comment_instance is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        self.check_object_permissions(request, comment_instance)
+
+        serializer = CommentSerializer(comment_instance, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        comment_instance = self.get_object(pk)
+        if comment_instance is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        self.check_object_permissions(request, comment_instance)
+
+        comment_instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -1,11 +1,5 @@
 from rest_framework import serializers
-from .models import photo, notice, comment
-
-
-class PhotoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = photo
-        fields = '__all__'
+from .models import notice, comment
 
 
 class NoticeSerializer(serializers.ModelSerializer):

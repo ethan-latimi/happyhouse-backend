@@ -24,6 +24,7 @@ urlpatterns = [
     path("api/v1/photos/", include("media.urls")),
     path("api/v1/introductions/", include("introductions.api.v1.urls")),
     path("api/v1/curriculums/", include("curriculums.api.v1.urls")),
+    path("api/v1/notices/", include("notices.api.v1.urls")),
     path('admin/', admin.site.urls),
 ]
 
