@@ -1,0 +1,22 @@
+[
+    {
+        "model": "curriculums.curriculum",
+        "pk": 1,
+        "fields": {
+            "title": "curriculum1",
+            "description": "description test",
+            "created_at": "2023-09-01 12:30:45.123456Z",
+            "updated_at": "2023-09-01 12:30:45.123456Z"
+        }
+    },
+    {
+        "model": "curriculums.curriculum",
+        "pk": 2,
+        "fields": {
+            "title": "curriculum2",
+            "description": "description test2",
+            "created_at": "2023-09-01 12:30:45.123456Z",
+            "updated_at": "2023-09-01 12:30:45.123456Z"
+        }
+    }
+]

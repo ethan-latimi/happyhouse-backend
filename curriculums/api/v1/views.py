@@ -4,15 +4,20 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from curriculums.models import curriculum
 from curriculums.serializers import CurriculumSerializer
+from common.permissions import IsStaffOrReadOnly
 
 
 class CurriculumList(APIView):
+
+    permission_classes = [IsStaffOrReadOnly]
+
     def get(self, request):
         curriculums = curriculum.objects.all()
         serializer = CurriculumSerializer(curriculums, many=True)
         return Response(serializer.data)
 
     def post(self, request):
+
         serializer = CurriculumSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -22,7 +27,7 @@ class CurriculumList(APIView):
 
 class CurriculumDetail(APIView):
 
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsStaffOrReadOnly]
 
     def get_object(self, pk):
         try:
