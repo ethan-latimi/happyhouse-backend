@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from introductions.models import introduction
+from introductions.models import Introduction
 from introductions.serializers import IntroductionSerializer
 from common.permissions import IsStaffOrReadOnly
 
@@ -12,7 +12,7 @@ class IntroductionList(APIView):
     permission_classes = [IsStaffOrReadOnly]
 
     def get(self, request):
-        introductions = introduction.objects.all()
+        introductions = Introduction.objects.all()
         serializer = IntroductionSerializer(introductions, many=True)
         return Response(serializer.data)
 
@@ -31,8 +31,8 @@ class IntroductionDetail(APIView):
 
     def get_object(self, pk):
         try:
-            return introduction.objects.get(pk=pk)
-        except introduction.DoesNotExist:
+            return Introduction.objects.get(pk=pk)
+        except Introduction.DoesNotExist:
             raise status.HTTP_404_NOT_FOUND
 
     def get(self, request, pk):

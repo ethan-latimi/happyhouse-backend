@@ -3,7 +3,8 @@ from common.models import CommonModel
 
 # 각 사업 기능에 대한 예약 Model
 
-class reservation(CommonModel):
+
+class Reservation(CommonModel):
 
     """Reservation Model Definition"""
 
@@ -13,7 +14,8 @@ class reservation(CommonModel):
         farm = ("farm", "Happy farm")
         salon = ("salon", "Happy Hair Salon")
 
-    business = models.CharField(max_length=255, choices=BusinessChoices.choices)
+    business = models.CharField(
+        max_length=255, choices=BusinessChoices.choices)
     user = models.ForeignKey("users.user", on_delete=models.CASCADE)
     check_in = models.DateField(
         null=True,

@@ -4,7 +4,7 @@ from common.models import CommonModel
 # 선생님 정보 Model
 
 
-class teacher(CommonModel):
+class Teacher(CommonModel):
 
     """Teacher Model Definition"""
 

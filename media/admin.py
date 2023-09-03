@@ -4,4 +4,8 @@ from .models import Photo
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id', 'file', 'introduction',
+                    'notice', 'created_at', 'updated_at')
+    list_filter = ('introduction', 'notice', 'created_at', 'updated_at')
+    search_fields = ('id', 'file')
+    date_hierarchy = 'created_at'

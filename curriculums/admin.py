@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import curriculum
+from .models import Curriculum
 
 
-@admin.register(curriculum)
+@admin.register(Curriculum)
 class CurriculumAdmin(admin.ModelAdmin):
     pass

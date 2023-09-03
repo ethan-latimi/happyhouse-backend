@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import teacher
+from .models import Teacher
 
 
-@admin.register(teacher)
+@admin.register(Teacher)
 class TeacherAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id', 'nick_name')
+    search_fields = ('id', 'nick_name')

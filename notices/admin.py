@@ -1,7 +1,12 @@
 from django.contrib import admin
-from .models import notice
+from .models import Notice, Comment
 
 
-@admin.register(notice)
+@admin.register(Notice)
 class NoticeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
     pass

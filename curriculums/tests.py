@@ -2,7 +2,7 @@ from django.test import TestCase
 from users.models import User
 from rest_framework.test import APIClient
 from rest_framework import status
-from .models import curriculum
+from .models import Curriculum
 from .serializers import CurriculumSerializer
 
 
@@ -34,10 +34,10 @@ class CurriculumListTests(TestCase):
             self.URL, new_curriculum_data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertTrue(curriculum.objects.filter(
+        self.assertTrue(Curriculum.objects.filter(
             title='New Curriculum').exists())
 
-        created_curriculum = curriculum.objects.get(title='New Curriculum')
+        created_curriculum = Curriculum.objects.get(title='New Curriculum')
 
         serializer = CurriculumSerializer(created_curriculum)
         relevant_data = {
@@ -66,7 +66,7 @@ class CurriculumDetailTests(TestCase):
 
     def test_get_curriculum(self):
         # Create a curriculum instance for testing
-        test_curriculum = curriculum.objects.create(
+        test_curriculum = Curriculum.objects.create(
             title='Test Curriculum', description='Test Description')
 
         response = self.client.get(
@@ -79,7 +79,7 @@ class CurriculumDetailTests(TestCase):
 
     def test_update_curriculum(self):
         # Create a curriculum instance for testing
-        test_curriculum = curriculum.objects.create(
+        test_curriculum = Curriculum.objects.create(
             title='Test Curriculum', description='Test Description')
 
         updated_data = {'title': 'Updated Curriculum',
@@ -91,7 +91,7 @@ class CurriculumDetailTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Retrieve the updated curriculum from the database
-        updated_curriculum = curriculum.objects.get(id=test_curriculum.id)
+        updated_curriculum = Curriculum.objects.get(id=test_curriculum.id)
 
         # Check if the curriculum data was updated as expected
         self.assertEqual(updated_curriculum.title, updated_data['title'])
@@ -100,7 +100,7 @@ class CurriculumDetailTests(TestCase):
 
     def test_delete_curriculum(self):
         # Create a curriculum instance for testing
-        test_curriculum = curriculum.objects.create(
+        test_curriculum = Curriculum.objects.create(
             title='Test Curriculum', description='Test Description')
 
         response = self.admin_client.delete(
@@ -109,5 +109,5 @@ class CurriculumDetailTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
         # Check if the curriculum was deleted from the database
-        self.assertFalse(curriculum.objects.filter(
+        self.assertFalse(Curriculum.objects.filter(
             id=test_curriculum.id).exists())

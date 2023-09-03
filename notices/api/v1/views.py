@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from notices.models import notice, comment
+from notices.models import Notice, Comment
 from notices.serializers import NoticeSerializer, CommentSerializer
 from common.permissions import IsStaffOrReadOnly, IsOwnerOrReadOnly
 
@@ -11,8 +11,8 @@ class NoticeList(APIView):
     permission_classes = [IsStaffOrReadOnly]
 
     def get(self, request):
-        notices = notice.objects.all()
-        serializer = NoticeSerializer(notices, many=True)
+        notices = Notice.objects.all()
+        serializer = NoticeSerializer(Notice, many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -29,8 +29,8 @@ class NoticeDetail(APIView):
 
     def get_object(self, pk):
         try:
-            return notice.objects.get(pk=pk)
-        except notice.DoesNotExist:
+            return Notice.objects.get(pk=pk)
+        except Notice.DoesNotExist:
             raise status.HTTP_404_NOT_FOUND
 
     def get(self, request, pk):
@@ -57,7 +57,7 @@ class CommentList(APIView):
     permission_classes = [IsOwnerOrReadOnly]
 
     def get(self, request):
-        comments = comment.objects.all()
+        comments = Comment.objects.all()
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
 
@@ -75,8 +75,8 @@ class CommentDetail(APIView):
 
     def get_object(self, pk):
         try:
-            return comment.objects.get(pk=pk)
-        except comment.DoesNotExist:
+            return Comment.objects.get(pk=pk)
+        except Comment.DoesNotExist:
             return None
 
     def get(self, request, pk):

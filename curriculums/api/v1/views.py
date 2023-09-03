@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from curriculums.models import curriculum
+from curriculums.models import Curriculum
 from curriculums.serializers import CurriculumSerializer
 from common.permissions import IsStaffOrReadOnly
 
@@ -12,7 +12,7 @@ class CurriculumList(APIView):
     permission_classes = [IsStaffOrReadOnly]
 
     def get(self, request):
-        curriculums = curriculum.objects.all()
+        curriculums = Curriculum.objects.all()
         serializer = CurriculumSerializer(curriculums, many=True)
         return Response(serializer.data)
 
@@ -31,8 +31,8 @@ class CurriculumDetail(APIView):
 
     def get_object(self, pk):
         try:
-            return curriculum.objects.get(pk=pk)
-        except curriculum.DoesNotExist:
+            return Curriculum.objects.get(pk=pk)
+        except Curriculum.DoesNotExist:
             raise status.HTTP_404_NOT_FOUND
 
     def get(self, request, pk):

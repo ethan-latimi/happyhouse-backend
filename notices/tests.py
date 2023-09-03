@@ -1,7 +1,7 @@
 from users.models import User
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
-from .models import notice
+from .models import Notice
 from .serializers import NoticeSerializer
 
 
@@ -20,9 +20,9 @@ class NoticeListAPITestCase(APITestCase):
     def test_get_notice_list(self):
 
         # Create some test notices
-        notice1 = notice.objects.create(
+        notice1 = Notice.objects.create(
             title="Notice 1", content="Content 1")
-        notice2 = notice.objects.create(
+        notice2 = Notice.objects.create(
             title="Notice 2", content="Content 2")
 
         response = self.client.get(self.URL)
@@ -42,7 +42,7 @@ class NoticeListAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # Check if the notice has been created in the database
-        notice_obj = notice.objects.filter(title="New Notice").first()
+        notice_obj = Notice.objects.filter(title="New Notice").first()
         self.assertIsNotNone(notice_obj)
 
     def test_unauthorized_create_notice(self):

@@ -3,7 +3,7 @@ from common.models import CommonModel
 # 어린이집이 가지고 있는 학습 커리큘럼 model
 
 
-class curriculum(CommonModel):
+class Curriculum(CommonModel):
 
     """Curriculum Model Definition"""
 

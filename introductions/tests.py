@@ -2,7 +2,7 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 from rest_framework.test import APIClient
 from users.models import User
-from .models import introduction
+from .models import Introduction
 from .serializers import IntroductionSerializer
 
 
@@ -49,8 +49,8 @@ class IntroductionDetailTests(APITestCase):
         )
         self.admin_client = APIClient()
         self.admin_client.force_authenticate(user=self.admin_user)
-        self.intro = introduction.objects.create(
-            kind=introduction.BusinessChoices.preschool, description='Test Introduction')
+        self.intro = Introduction.objects.create(
+            kind=Introduction.BusinessChoices.preschool, description='Test Introduction')
 
     def test_get_object(self):
         response = self.client.get(f'/api/v1/introductions/{self.intro.pk}/')
@@ -64,18 +64,18 @@ class IntroductionDetailTests(APITestCase):
         self.assertEqual(response.data, serializer.data)
 
     def test_put(self):
-        updated_data = {'kind': introduction.BusinessChoices.housing,
+        updated_data = {'kind': Introduction.BusinessChoices.housing,
                         'description': 'Updated Introduction'}
         response = self.admin_client.put(
             f'/api/v1/introductions/{self.intro.pk}/', updated_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.intro.refresh_from_db()
-        self.assertEqual(self.intro.kind, introduction.BusinessChoices.housing)
+        self.assertEqual(self.intro.kind, Introduction.BusinessChoices.housing)
         self.assertEqual(self.intro.description, 'Updated Introduction')
 
     def test_put_unauthenticated(self):
         updated_data = {
-            'kind': introduction.BusinessChoices.housing,
+            'kind': Introduction.BusinessChoices.housing,
             'description': 'Updated Introduction'
         }
         response = self.client.put(
@@ -88,7 +88,7 @@ class IntroductionDetailTests(APITestCase):
         self.client.login(username='adminuser', password='adminpassword')
 
         updated_data = {
-            'kind': introduction.BusinessChoices.housing,
+            'kind': Introduction.BusinessChoices.housing,
             'description': 'Updated Introduction'
         }
         response = self.client.put(
@@ -100,5 +100,5 @@ class IntroductionDetailTests(APITestCase):
         response = self.client.delete(
             f'/api/v1/introductions/{self.intro.pk}/')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        with self.assertRaises(introduction.DoesNotExist):
+        with self.assertRaises(Introduction.DoesNotExist):
             self.intro.refresh_from_db()

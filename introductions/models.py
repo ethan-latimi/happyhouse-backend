@@ -4,7 +4,7 @@ from common.models import CommonModel
 # 각각의 사업(preschool, housing, farm, hairsalon)들 소개란
 
 
-class introduction(CommonModel):
+class Introduction(CommonModel):
 
     """ Business Introduction model Defined """
 

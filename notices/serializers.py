@@ -1,14 +1,14 @@
 from rest_framework import serializers
-from .models import notice, comment
+from .models import Notice, Comment
 
 
 class NoticeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = notice
+        model = Notice
         fields = '__all__'
 
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = comment
+        model = Comment
         fields = '__all__'

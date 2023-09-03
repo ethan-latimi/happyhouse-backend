@@ -4,7 +4,7 @@ from common.models import CommonModel
 # admin이 관리하는 공지사항 게시판 및 유저의 댓글 model
 
 
-class notice(CommonModel):
+class Notice(CommonModel):
 
     """Notice Model Definition"""
 
@@ -15,7 +15,7 @@ class notice(CommonModel):
         return self.title
 
 
-class comment(CommonModel):
+class Comment(CommonModel):
 
     """Comment Model Definition"""
 

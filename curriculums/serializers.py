@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import curriculum
+from .models import Curriculum
 
 
 class CurriculumSerializer(serializers.ModelSerializer):
     class Meta:
-        model = curriculum
+        model = Curriculum
         fields = '__all__'

@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import reservation
+from .models import Reservation
 
 
-@admin.register(reservation)
+@admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
     pass

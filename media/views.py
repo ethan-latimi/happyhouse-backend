@@ -1,41 +1,58 @@
-from django.conf import settings
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from rest_framework.status import HTTP_200_OK
 from rest_framework.response import Response
-from rest_framework.exceptions import NotFound, PermissionDenied
+from rest_framework import status
+
 from .models import Photo
+from .serializers import PhotoSerializer
+from common.permissions import IsOwnerOrReadOnly
+
+
+class PhotoList(APIView):
+    """
+    List all photos or create a new photo.
+    """
+
+    permission_classes = [IsOwnerOrReadOnly]
+
+    def get(self, request, format=None):
+        photos = Photo.objects.all()
+        serializer = PhotoSerializer(photos, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = PhotoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class PhotoDetail(APIView):
-
-    permission_classes = [IsAuthenticated]
+    """
+    Retrieve, update or delete a photo instance.
+    """
+    permission_classes = [IsOwnerOrReadOnly]
 
     def get_object(self, pk):
         try:
             return Photo.objects.get(pk=pk)
         except Photo.DoesNotExist:
-            raise NotFound
+            raise status.HTTP_404_NOT_FOUND
+
+    def get(self, request, pk):
+        photo = self.get_object(pk)
+        serializer = PhotoSerializer(photo)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        photo = self.get_object(pk)
+        serializer = PhotoSerializer(photo, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
         photo = self.get_object(pk)
-        if (photo.room and photo.room.owner != request.user) or (
-            photo.experience and photo.experience.host != request.user
-        ):
-            raise PermissionDenied
         photo.delete()
-        return Response(status=HTTP_200_OK)
-
-
-class GetUploadURL(APIView):
-    def post(self, request):
-        url = ""
-        one_time_url = request.post(
-            url,
-            headers={
-                "Authorization": f"Bearer {settings.CF_TOKEN}",
-            },
-        )
-        one_time_url = one_time_url.json()
-        result = one_time_url.get("result")
-        return Response({"id": result.get("id"), "uploadURL": result.get("uploadURL")})
+        return Response(status=status.HTTP_204_NO_CONTENT)

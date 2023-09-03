@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import introduction
+from .models import Introduction
 
 
-@admin.register(introduction)
+@admin.register(Introduction)
 class IntroductionAdmin(admin.ModelAdmin):
     pass

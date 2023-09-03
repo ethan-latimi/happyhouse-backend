@@ -1,5 +1,6 @@
 from django.db import models
 from common.models import CommonModel
+from django.core.exceptions import ValidationError
 
 
 class Photo(CommonModel):
@@ -22,3 +23,8 @@ class Photo(CommonModel):
 
     def __str__(self):
         return "Photo File"
+
+    def clean(self):
+        if self.introduction and self.notice:
+            raise ValidationError(
+                "You can choose either an introduction or a notice, not both.")
