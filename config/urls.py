@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path("", include("common.urls")),
+    path("api/", include("common.urls")),
     path("api/v1/photos/", include("media.urls")),
     path("api/v1/userse/", include("users.api.v1.urls")),
     path("api/v1/introductions/", include("introductions.api.v1.urls")),

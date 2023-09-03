@@ -20,6 +20,7 @@ class Comment(CommonModel):
     """Comment Model Definition"""
 
     payload = models.TextField()
+    notice = models.ForeignKey("notices.Notice", on_delete=models.CASCADE)
     owner = models.ForeignKey("users.User", on_delete=models.CASCADE)
 
     def __str__(self):

@@ -10,6 +10,8 @@ def getRoutes(request):
         '/api/v1/introductions/',
         '/api/v1/curriculums/',
         '/api/v1/notices/',
+        '/api/v1/notices/<int:notice_id>/comments/',
+        '/api/v1/notices/<int:notice_id>/comments/<int:pk>/',
         '/api/v1/reservations/',
         '/api/v1/teachers/',
         '/api/v1/users/',
